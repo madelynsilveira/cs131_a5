@@ -1,0 +1,83 @@
+*******************************************************************************
+CS131: Artificial Intelligence
+A5: Naive Bayesian Classification
+*******************************************************************************
+Submission by Madelyn Silveira
+Due: 04/12/2023
+
+-------------------------------------------------------------------------------
+Included in this assignment:
+main.py
+    --> Initialize variables to read data from files and run classification
+        system by running file.
+
+bayesian.py
+    --> Includes probalility functions to calculate the probability 
+        distributions and posterior probabilities.
+
+parse.py
+    --> Includes functions to read from a file. Calls bayesian functions to 
+        calculate probalilities. 
+
+likelihood.txt 
+    --> Contains data describing the likelihood of birds vs. airplanes for 
+        a given speed. Organized into two rows for birds and airplanes, 
+        respectively.
+
+training.txt
+    --> Contains 20 tracks representing the velocity of birds and airplanes
+        as measured by a military grade radar with unaquired targets as NaN. 
+        Maximum sample drop rate of 5% of the total number of samples per track.
+    
+testing.txt
+    --> Contains 10 track of unidetified flying objects to be classified by the 
+        system. 
+
+README
+    --> this file. Describes implementation of the problem being solved
+
+-------------------------------------------------------------------------------
+A RADAR TRACE CLASSIFIER
+Use a Naive Bayesian Classification to determine if detected objects are 
+airplanes or birds.
+
+Naive Bayes Model:
+    query variable: classification 
+    evidence variables: observed features (speed, NaN)
+
+Evidence variables are considered independent of one another. 
+
+-------------------------------------------------------------------------------
+Describing the process:
+
+nodes: speed (parent), classification (child)
+
+initial probabilities: 
+    P(bird) = 0.5
+    P(airplane) = 0.5
+
+probability distributions:
+    likelihood --> class given a velocity
+    find the area under the graph for a given velocity and dx (200/ 400 = 0.5)
+    
+    This is what you might do if data presented in other way:
+    P(speed | bird) = Normal (mean_bird * std_bird)
+    P(speed | plane) = Normal (mean_plane * std_plane)
+ 
+posterior probabilities:
+    P(bird | speed) = P(speed | bird) * P(bird) / P(speed)
+    P(plane | speed) = P(speed | plane) * P(plane) / P(speed)
+    where P(speed) = P(speed | bird) * P(bird) + P(speed | plane) * p(plane)
+
+    posterior = likelihood * prior / evidence
+
+probability of transition:
+    P(Ct+1 = bird | Ct = bird) = 0.9
+    P(Ct+1 = airplane | Ct = airplane) = 0.9
+
+
+additional features:
+- You could fill in the NaN values with averages of their neighbors
+- You could calculate average means and standard deviations of training data
+  to start with better prior probabilities based on std and mean of row
+- You could update your algorithm after each test you encounter
